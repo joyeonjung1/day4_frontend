@@ -97,7 +97,7 @@ button:hover { background: #f0f3f6; }
 .modes { display: flex; gap: 6px; margin-bottom: 8px; }
 .mode { padding: 6px 14px; border-radius: 8px; font-size: 14px; }
 .mode.on { background: #2563eb; color: #fff; border-color: #2563eb; }
-.map3d { position: relative; height: 480px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #dff1ff; }
+.map3d { position: relative; height: 520px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: linear-gradient(180deg, #08182e 0%, #12406b 100%); }
 .map3d canvas { width: 100%; height: 100%; touch-action: none; }
 .map3d-info { position: absolute; z-index: 2; left: 10px; top: 10px; right: 10px; padding: 6px 10px; border-radius: 8px;
   background: rgba(255,255,255,.92); font-size: 13px; pointer-events: none; }
