@@ -1,7 +1,7 @@
 // 에이전트 루프: 사용자 질문 → Gemini 가 도구를 고름(function calling) → 서버가 도구 실행 → 결과를 Gemini 에게 → 최종 답
 import { DECLARATIONS, TOOLS } from './tools.js';
 
-const MODEL = () => (process.env.GEMINI_MODEL || 'gemini-3.8-flash').trim();
+const MODEL = () => (process.env.GEMINI_MODEL || 'gemini-3.1-flash-lite').trim();
 // 생각 수준: minimal | low | medium | high  (낮을수록 빠르고 저렴). 환경변수 GEMINI_THINKING_LEVEL 로 변경
 const THINKING = () => (process.env.GEMINI_THINKING_LEVEL || 'low').trim().toLowerCase();
 const MAX_STEPS = 5;  // 도구 호출 왕복 최대 횟수 (무한 반복·비용 방지)
