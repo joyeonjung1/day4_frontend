@@ -219,5 +219,6 @@ $('rows').addEventListener('click', async (ev) => {
   }
 });
 
+window.map2dResize = () => { if (map) map.invalidateSize(); };
 initMap(); // 백엔드가 꺼져 있어도 지도·날씨는 동작하게
 load();
