@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>제주 미세먼지</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>제주 미세먼지</h1>
+      <p class="sub">공공데이터 → FastAPI 가공·예측 → Supabase 저장 → 이 화면은 결과만 받아 표시</p>
+      <p class="status" id="status">백엔드 연결 확인 중…</p>
+    </header>
+
+    <section class="wbox">
+      <div class="wcard">
+        <h2>실시간 날씨</h2>
+        <form id="w-form" class="w-form" autocomplete="off">
+          <div class="w-search">
+            <input id="w-q" type="text" autocomplete="off" role="combobox" aria-controls="w-list"
+                   placeholder="지역 입력 (첫 글자만 써도 추천: 서, 부, 평택, Seoul)">
+            <ul id="w-list" class="w-list" role="listbox" hidden></ul>
+          </div>
+          <button type="submit" class="w-btn">검색</button>
+        </form>
+        <small id="w-hint" class="w-hint"></small>
+        <div class="weather" id="weather" hidden></div>
+      </div>
+    </section>
+
+    <section class="dbstat" id="dbstat" hidden></section>
+
+    <section class="summary" id="summary" hidden></section>
+
+    <section class="mapbox">
+      <div id="map" aria-label="제주 미세먼지 지도"></div>
+      <p class="maphint" id="maphint">지도를 클릭하면 그 지점의 날씨와 미세먼지를 보여 줍니다.</p>
+    </section>
+
+    <section>
+      <table>
+        <thead>
+          <tr><th>측정소</th><th>시각</th><th>PM10</th><th>PM2.5</th><th>예측</th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </section>
+
+    <section class="pred" id="pred" hidden></section>
+    <section class="chart" id="chart" hidden></section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+  <script src="cities.js"></script>
+  <script src="weather.js"></script>
+</body>
+</html>

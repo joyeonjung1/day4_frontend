@@ -1,0 +1,94 @@
+:root {
+  --bg: #f6f8fa; --card: #fff; --text: #1f2328; --muted: #656d76; --line: #d0d7de;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font-family: "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+h1 { margin: 0 0 4px; font-size: 26px; }
+.sub { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+.status { padding: 8px 12px; border-radius: 8px; background: #eef; font-size: 13px; word-break: break-all; }
+.status.ok { background: #e6f4ea; }
+.status.err { background: #fde8e8; color: #a40e26; }
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 16px 0; }
+.summary div { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+.summary b { display: block; font-size: 22px; }
+.summary span { color: var(--muted); font-size: 13px; }
+table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; }
+th, td { padding: 10px; border-bottom: 1px solid var(--line); text-align: left; font-size: 14px; }
+th { background: #eaeef2; }
+button { border: 1px solid var(--line); background: #fff; border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+button:hover { background: #f0f3f6; }
+.badge { color: #fff; border-radius: 6px; padding: 1px 8px; font-size: 12px; margin-left: 4px; }
+.badge.none { color: var(--muted); }
+.g-좋음 { background: #2f80ed; }
+.g-보통 { background: #27ae60; }
+.g-나쁨 { background: #f2994a; }
+.g-매우나쁨 { background: #eb5757; }
+.mapbox { margin: 16px 0; }
+#map { height: 420px; border: 1px solid var(--line); border-radius: 10px; z-index: 0; }
+.maphint { margin: 6px 2px 0; color: var(--muted); font-size: 13px; }
+.pin { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+  box-shadow: 0 1px 4px rgba(0,0,0,.4); }
+.pin.g-좋음 { background: #2f80ed; } .pin.g-보통 { background: #27ae60; }
+.pin.g-나쁨 { background: #f2994a; } .pin.g-매우나쁨 { background: #eb5757; }
+.pin.g-none { background: #8c959f; }
+.pop b { font-size: 15px; }
+.pop small { color: var(--muted); }
+.pred { margin-top: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+.pred small { color: var(--muted); }
+.dbstat { margin: 12px 0; padding: 10px 14px; background: #eef6ff; border: 1px solid #c7ddf5; border-radius: 10px; font-size: 14px; line-height: 1.6; }
+.dbstat small { color: var(--muted); }
+.wbox { margin: 16px 0; padding: 22px 14px; border-radius: 14px; background: linear-gradient(160deg, #38a9ff, #1ab6ff); }
+.wcard { max-width: 380px; margin: 0 auto; padding: 22px 20px; background: #fff; border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.15); text-align: center; }
+.wcard h2 { margin: 0 0 14px; font-size: 18px; }
+.w-form { display: flex; gap: 8px; }
+.w-search { position: relative; flex: 1; min-width: 0; }
+#w-q { width: 100%; padding: 10px 12px; font: inherit; font-size: 15px; border: 2px solid #1f2328; border-radius: 10px; background: #fff; }
+#w-q:focus { outline: none; border-color: #2563eb; }
+.w-btn { background: #2563eb; color: #fff; border: 0; border-radius: 10px; padding: 0 18px; font-size: 15px; font-weight: 600; }
+.w-btn:hover { background: #1d4fd0; }
+.w-list { position: absolute; z-index: 1000; left: 0; right: 0; top: calc(100% + 4px); margin: 0; padding: 4px 0; list-style: none; text-align: left;
+  background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,.15); max-height: 300px; overflow: auto; }
+.w-list li { padding: 8px 12px; cursor: pointer; font-size: 14px; }
+.w-list li.on, .w-list li:hover { background: #eef6ff; }
+.w-list small { color: var(--muted); }
+.w-hint { display: block; min-height: 18px; margin: 6px 0 0; color: var(--muted); font-size: 12px; }
+.weather { margin-top: 6px; }
+.weather.loading { color: var(--muted); padding: 24px 0; }
+.weather.err { background: #fde8e8; color: #a40e26; font-size: 14px; border-radius: 10px; padding: 12px; }
+.w-place { font-size: 16px; font-weight: 700; }
+.w-main { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 6px 0 2px; }
+.w-icon { font-size: 64px; line-height: 1; }
+.w-temp { font-size: 52px; line-height: 1; }
+.w-desc { color: var(--muted); font-size: 16px; margin-bottom: 14px; }
+.w-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; }
+.w-grid div { background: #f1f4f9; border-radius: 10px; padding: 10px 6px; }
+.w-grid dt { color: var(--muted); font-size: 12px; margin-bottom: 4px; }
+.w-grid dd { margin: 0; font-size: 15px; font-weight: 700; }
+.w-note { display: block; margin-top: 12px; color: var(--muted); font-size: 11px; }
+.mapbox { margin: 16px 0; }
+#map { height: 420px; border: 1px solid var(--line); border-radius: 10px; z-index: 0; }
+.maphint { margin: 6px 2px 0; color: var(--muted); font-size: 13px; }
+.pin { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+  box-shadow: 0 1px 4px rgba(0,0,0,.4); }
+.pin.g-좋음 { background: #2f80ed; } .pin.g-보통 { background: #27ae60; }
+.pin.g-나쁨 { background: #f2994a; } .pin.g-매우나쁨 { background: #eb5757; }
+.pin.g-none { background: #8c959f; }
+.pop b { font-size: 15px; }
+.pop small { color: var(--muted); }
+.pred { margin-top: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+.pred small { color: var(--muted); }
+.dbstat { margin: 12px 0; padding: 10px 14px; background: #eef6ff; border: 1px solid #c7ddf5; border-radius: 10px; font-size: 14px; line-height: 1.6; }
+.dbstat small { color: var(--muted); }
+.chart { margin-top: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.chart small { color: var(--muted); }
+.chart svg { display: block; width: 100%; height: auto; margin-top: 6px; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .axis { fill: var(--muted); font-size: 11px; }
+.chart .series { fill: none; stroke: #0b5cad; stroke-width: 2; }
+.chart .forecast { stroke: #eb5757; stroke-width: 2; stroke-dasharray: 5 4; }
+.chart .predpt { fill: #eb5757; }
