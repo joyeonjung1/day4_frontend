@@ -23,7 +23,7 @@ dev.mjs                내 PC 미리보기용 (배포에는 쓰이지 않음)
 2. **Settings → Environment Variables** 에 등록 후 다시 배포:
    - `GEMINI_API_KEY` (필수) — https://aistudio.google.com/apikey
    - `KAKAO_REST_API_KEY` (권장) — https://developers.kakao.com 에서 앱 만들고 REST API 키
-   - `GEMINI_MODEL` (선택, 기본 `gemini-2.5-flash`)
+   - `GEMINI_MODEL` (선택, 기본 `gemini-3.8-flash`)
 3. 키는 서버 함수 안에서만 쓰이며 브라우저로 나가지 않는다.
 
 ## 내 PC 에서 실행
