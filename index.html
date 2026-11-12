@@ -3,18 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>제주 미세먼지</title>
+  <title>날씨 기반 장소 추천 에이전트</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="wrap">
     <header>
-      <h1>제주 미세먼지</h1>
-      <p class="sub">공공데이터 → FastAPI 가공·예측 → Supabase 저장 → 이 화면은 결과만 받아 표시</p>
-      <p class="status" id="status">백엔드 연결 확인 중…</p>
+      <h1>날씨 기반 장소 추천 에이전트</h1>
+      <p class="sub">질문하면 Gemini가 <b>get_weather</b>(실시간 날씨·미세먼지)와 <b>find_spots</b>(장소 검색) 중 필요한 도구를 골라 호출해 추천합니다.</p>
     </header>
 
+    <!-- AI 추천 채팅 -->
+    <section class="chat" aria-label="AI 추천">
+      <div id="chat-log" class="chat-log" aria-live="polite">
+        <div class="msg model"><div class="bubble">안녕하세요! 지역과 상황을 알려 주세요. 날씨를 확인해서 어울리는 장소를 추천해 드릴게요.</div></div>
+      </div>
+      <div class="examples" id="examples"></div>
+      <form id="chat-form" class="chat-form" autocomplete="off">
+        <input id="chat-q" type="text" maxlength="300" placeholder="예) 내일 제주에서 비 오면 갈 만한 실내 장소 추천해줘">
+        <button type="submit" id="chat-send">보내기</button>
+      </form>
+    </section>
+
+    <!-- 추천 장소 + 날씨를 보는 2D 지도 -->
+    <section class="mapbox">
+      <div id="map" aria-label="지도"></div>
+      <p class="maphint" id="maphint">지도를 클릭하면 그 지점의 날씨와 미세먼지를 보여 줍니다. 추천받은 장소는 번호 마커로 표시됩니다.</p>
+    </section>
+
+    <!-- 지역 검색 날씨 카드 -->
     <section class="wbox">
       <div class="wcard">
         <h2>실시간 날씨</h2>
@@ -30,49 +48,12 @@
         <div class="weather" id="weather" hidden></div>
       </div>
     </section>
-
-    <section class="dbstat" id="dbstat" hidden></section>
-
-    <section class="summary" id="summary" hidden></section>
-
-    <section class="mapbox">
-      <div class="modes" role="tablist" aria-label="지도 보기 방식">
-        <button type="button" id="mode-2d" class="mode on" role="tab">2D 지도</button>
-        <button type="button" id="mode-3d" class="mode" role="tab">3D 지도</button>
-      </div>
-      <div id="map" aria-label="미세먼지 지도"></div>
-      <div id="map3d" class="map3d" hidden aria-label="3D 미세먼지 지도">
-        <div id="map3d-info" class="map3d-info">3D 지도를 준비하는 중…</div>
-        <div class="legend3d"><i style="background:#2f80ed"></i>좋음 <i style="background:#27ae60"></i>보통 <i style="background:#f2994a"></i>나쁨 <i style="background:#eb5757"></i>매우나쁨</div>
-      </div>
-      <p class="maphint" id="maphint">지도를 클릭하면 그 지점의 날씨와 미세먼지를 보여 줍니다.</p>
-    </section>
-
-    <section>
-      <table>
-        <thead>
-          <tr><th>측정소</th><th>시각</th><th>PM10</th><th>PM2.5</th><th>예측</th></tr>
-        </thead>
-        <tbody id="rows"></tbody>
-      </table>
-    </section>
-
-    <section class="pred" id="pred" hidden></section>
-    <section class="chart" id="chart" hidden></section>
   </main>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="config.js"></script>
   <script src="app.js"></script>
   <script src="cities.js"></script>
   <script src="weather.js"></script>
-  <!-- 3D 지도: three.js (버전 고정) -->
-  <script type="importmap">
-    { "imports": {
-        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-    } }
-  </script>
-  <script type="module" src="map3d.js"></script>
+  <script src="agent.js"></script>
 </body>
 </html>

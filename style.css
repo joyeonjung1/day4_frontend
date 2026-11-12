@@ -1,45 +1,54 @@
 :root {
-  --bg: #f6f8fa; --card: #fff; --text: #1f2328; --muted: #656d76; --line: #d0d7de;
+  --bg: #f6f8fa; --card: #fff; --text: #1f2328; --muted: #656d76; --line: #d0d7de; --brand: #2563eb;
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--text);
   font-family: "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif; }
-.wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
 h1 { margin: 0 0 4px; font-size: 26px; }
-.sub { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
-.status { padding: 8px 12px; border-radius: 8px; background: #eef; font-size: 13px; word-break: break-all; }
-.status.ok { background: #e6f4ea; }
-.status.err { background: #fde8e8; color: #a40e26; }
-.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 16px 0; }
-.summary div { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
-.summary b { display: block; font-size: 22px; }
-.summary span { color: var(--muted); font-size: 13px; }
-table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; }
-th, td { padding: 10px; border-bottom: 1px solid var(--line); text-align: left; font-size: 14px; }
-th { background: #eaeef2; }
-button { border: 1px solid var(--line); background: #fff; border-radius: 6px; padding: 4px 10px; cursor: pointer; }
-button:hover { background: #f0f3f6; }
+.sub { margin: 0 0 16px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+[hidden] { display: none !important; }
+button { cursor: pointer; font: inherit; }
+
+/* ── AI 채팅 ── */
+.chat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px; margin-bottom: 16px; }
+.chat-log { max-height: 460px; min-height: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 4px; }
+.msg { display: flex; flex-direction: column; max-width: 92%; }
+.msg.user { align-self: flex-end; align-items: flex-end; }
+.msg.model { align-self: flex-start; }
+.bubble { padding: 10px 14px; border-radius: 14px; line-height: 1.6; font-size: 15px; word-break: break-word; }
+.msg.user .bubble { background: var(--brand); color: #fff; border-bottom-right-radius: 4px; }
+.msg.model .bubble { background: #f1f4f9; border-bottom-left-radius: 4px; }
+.msg.model .bubble.pending { color: var(--muted); }
+.msg.model .bubble.err { background: #fde8e8; color: #a40e26; }
+.bubble p { margin: 0 0 6px; } .bubble p:last-child { margin-bottom: 0; }
+.bubble ul, .bubble ol { margin: 4px 0 6px; padding-left: 20px; }
+.tools { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.chip { font-size: 12px; padding: 3px 9px; border-radius: 999px; background: #eef6ff; border: 1px solid #c7ddf5; color: #1d4fa0; }
+.chip.fail { background: #fde8e8; border-color: #f3b4b4; color: #a40e26; }
+.examples { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 8px; }
+.examples button { font-size: 13px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--text); }
+.examples button:hover { background: #eef6ff; }
+.chat-form { display: flex; gap: 8px; }
+.chat-form input { flex: 1; min-width: 0; padding: 11px 12px; font: inherit; font-size: 15px; border: 2px solid var(--text); border-radius: 10px; }
+.chat-form input:focus { outline: none; border-color: var(--brand); }
+.chat-form button { background: var(--brand); color: #fff; border: 0; border-radius: 10px; padding: 0 18px; font-weight: 600; }
+.chat-form button:disabled { opacity: .5; cursor: default; }
+
+/* ── 지도 ── */
+.mapbox { margin: 16px 0; }
+#map { height: 420px; border: 1px solid var(--line); border-radius: 10px; z-index: 0; }
+.maphint { margin: 6px 2px 0; color: var(--muted); font-size: 13px; }
+.spin { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #fff; background: #e8590c; color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; box-shadow: 0 1px 4px rgba(0,0,0,.45); }
+.pop small { color: var(--muted); }
+
+/* ── 날씨 카드 ── */
 .badge { color: #fff; border-radius: 6px; padding: 1px 8px; font-size: 12px; margin-left: 4px; }
-.badge.none { color: var(--muted); }
 .g-좋음 { background: #2f80ed; }
 .g-보통 { background: #27ae60; }
 .g-나쁨 { background: #f2994a; }
 .g-매우나쁨 { background: #eb5757; }
-.mapbox { margin: 16px 0; }
-#map { height: 420px; border: 1px solid var(--line); border-radius: 10px; z-index: 0; }
-.maphint { margin: 6px 2px 0; color: var(--muted); font-size: 13px; }
-.pin { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; color: #fff;
-  display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
-  box-shadow: 0 1px 4px rgba(0,0,0,.4); }
-.pin.g-좋음 { background: #2f80ed; } .pin.g-보통 { background: #27ae60; }
-.pin.g-나쁨 { background: #f2994a; } .pin.g-매우나쁨 { background: #eb5757; }
-.pin.g-none { background: #8c959f; }
-.pop b { font-size: 15px; }
-.pop small { color: var(--muted); }
-.pred { margin-top: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
-.pred small { color: var(--muted); }
-.dbstat { margin: 12px 0; padding: 10px 14px; background: #eef6ff; border: 1px solid #c7ddf5; border-radius: 10px; font-size: 14px; line-height: 1.6; }
-.dbstat small { color: var(--muted); }
 .wbox { margin: 16px 0; padding: 22px 14px; border-radius: 14px; background: linear-gradient(160deg, #38a9ff, #1ab6ff); }
 .wcard { max-width: 380px; margin: 0 auto; padding: 22px 20px; background: #fff; border-radius: 18px;
   box-shadow: 0 8px 24px rgba(0,0,0,.15); text-align: center; }
@@ -47,8 +56,8 @@ button:hover { background: #f0f3f6; }
 .w-form { display: flex; gap: 8px; }
 .w-search { position: relative; flex: 1; min-width: 0; }
 #w-q { width: 100%; padding: 10px 12px; font: inherit; font-size: 15px; border: 2px solid #1f2328; border-radius: 10px; background: #fff; }
-#w-q:focus { outline: none; border-color: #2563eb; }
-.w-btn { background: #2563eb; color: #fff; border: 0; border-radius: 10px; padding: 0 18px; font-size: 15px; font-weight: 600; }
+#w-q:focus { outline: none; border-color: var(--brand); }
+.w-btn { background: var(--brand); color: #fff; border: 0; border-radius: 10px; padding: 0 18px; font-size: 15px; font-weight: 600; }
 .w-btn:hover { background: #1d4fd0; }
 .w-list { position: absolute; z-index: 1000; left: 0; right: 0; top: calc(100% + 4px); margin: 0; padding: 4px 0; list-style: none; text-align: left;
   background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,.15); max-height: 300px; overflow: auto; }
@@ -69,40 +78,3 @@ button:hover { background: #f0f3f6; }
 .w-grid dt { color: var(--muted); font-size: 12px; margin-bottom: 4px; }
 .w-grid dd { margin: 0; font-size: 15px; font-weight: 700; }
 .w-note { display: block; margin-top: 12px; color: var(--muted); font-size: 11px; }
-.mapbox { margin: 16px 0; }
-#map { height: 420px; border: 1px solid var(--line); border-radius: 10px; z-index: 0; }
-.maphint { margin: 6px 2px 0; color: var(--muted); font-size: 13px; }
-.pin { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; color: #fff;
-  display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
-  box-shadow: 0 1px 4px rgba(0,0,0,.4); }
-.pin.g-좋음 { background: #2f80ed; } .pin.g-보통 { background: #27ae60; }
-.pin.g-나쁨 { background: #f2994a; } .pin.g-매우나쁨 { background: #eb5757; }
-.pin.g-none { background: #8c959f; }
-.pop b { font-size: 15px; }
-.pop small { color: var(--muted); }
-.pred { margin-top: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
-.pred small { color: var(--muted); }
-.dbstat { margin: 12px 0; padding: 10px 14px; background: #eef6ff; border: 1px solid #c7ddf5; border-radius: 10px; font-size: 14px; line-height: 1.6; }
-.dbstat small { color: var(--muted); }
-.chart { margin-top: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
-.chart small { color: var(--muted); }
-.chart svg { display: block; width: 100%; height: auto; margin-top: 6px; }
-.chart .grid { stroke: var(--line); stroke-width: 1; }
-.chart .axis { fill: var(--muted); font-size: 11px; }
-.chart .series { fill: none; stroke: #0b5cad; stroke-width: 2; }
-.chart .forecast { stroke: #eb5757; stroke-width: 2; stroke-dasharray: 5 4; }
-.chart .predpt { fill: #eb5757; }
-
-/* ── 2D/3D 전환 + 3D 지도 ── */
-.modes { display: flex; gap: 6px; margin-bottom: 8px; }
-.mode { padding: 6px 14px; border-radius: 8px; font-size: 14px; }
-.mode.on { background: #2563eb; color: #fff; border-color: #2563eb; }
-.map3d { position: relative; height: 520px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: linear-gradient(180deg, #08182e 0%, #12406b 100%); }
-.map3d canvas { width: 100%; height: 100%; touch-action: none; }
-.map3d-info { position: absolute; z-index: 2; left: 10px; top: 10px; right: 10px; padding: 6px 10px; border-radius: 8px;
-  background: rgba(255,255,255,.92); font-size: 13px; pointer-events: none; }
-.legend3d { position: absolute; z-index: 2; left: 10px; bottom: 10px; padding: 4px 10px; border-radius: 8px;
-  background: rgba(255,255,255,.92); font-size: 12px; }
-.legend3d i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 3px 0 8px; vertical-align: middle; }
-.legend3d i:first-child { margin-left: 0; }
-[hidden] { display: none !important; }
