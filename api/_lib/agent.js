@@ -2,7 +2,9 @@
 import { DECLARATIONS, TOOLS } from './tools.js';
 
 const MODEL = () => (process.env.GEMINI_MODEL || 'gemini-3.8-flash').trim();
-const MAX_STEPS = 5;   // 도구 호출 왕복 최대 횟수 (무한 반복·비용 방지)
+// 생각 수준: minimal | low | medium | high  (낮을수록 빠르고 저렴). 환경변수 GEMINI_THINKING_LEVEL 로 변경
+const THINKING = () => (process.env.GEMINI_THINKING_LEVEL || 'low').trim().toLowerCase();
+const MAX_STEPS = 5;  // 도구 호출 왕복 최대 횟수 (무한 반복·비용 방지)
 
 const SYSTEM = `너는 한국 여행·나들이 추천 에이전트다. 두 가지 도구를 상황에 맞게 골라 쓴다.
 - get_weather: 날씨·옷차림·비 여부·미세먼지·야외 활동 가능 여부가 필요할 때.
@@ -25,7 +27,7 @@ async function callGemini(contents, key) {
       contents,
       tools: [{ functionDeclarations: DECLARATIONS }],
       toolConfig: { functionCallingConfig: { mode: 'AUTO' } },
-      generationConfig: { temperature: 0.4, maxOutputTokens: 1500 },
+      generationConfig: { temperature: 0.4, maxOutputTokens: 1500, thinkingConfig: { thinkingLevel: THINKING() } },
     }),
   });
   if (!r.ok) {
