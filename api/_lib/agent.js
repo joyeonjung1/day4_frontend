@@ -6,7 +6,7 @@ const MODEL = () => (process.env.GEMINI_MODEL || 'gemini-3.1-flash-lite').trim()
 const THINKING = () => (process.env.GEMINI_THINKING_LEVEL || 'low').trim().toLowerCase();
 const MAX_STEPS = 5;  // 도구 호출 왕복 최대 횟수 (무한 반복·비용 방지)
 
-const SYSTEM = `너는 한국 여행·나들이 추천 에이전트다. 두 가지 도구를 상황에 맞게 골라 쓴다.
+const SYSTEM = `너는 여행·나들이 추천 에이전트다(주로 한국). 두 가지 도구를 상황에 맞게 골라 쓴다.
 - get_weather: 날씨·옷차림·비 여부·미세먼지·야외 활동 가능 여부가 필요할 때.
 - find_spots: 장소·맛집·카페·관광지·산책·데이트 추천이 필요할 때.
 규칙:
@@ -16,7 +16,8 @@ const SYSTEM = `너는 한국 여행·나들이 추천 에이전트다. 두 가�
 3. 도구 결과에 없는 장소·정보는 지어내지 않는다. 영업시간·가격·평점은 결과에 없으면 "확인 필요"라고 말한다.
 4. 답변은 한국어로 간결하게: 날씨 요약 1~2줄 → 추천 3~5곳(이름, 추천 이유, 대략 거리) → 한 줄 팁. 마크다운 목록(-)과 **굵게**만 사용한다.
 5. 지역이 전혀 없는 모호한 질문일 때만 어느 지역인지 되묻는다. 지역이 있으면 바로 도구를 호출한다.
-6. 한국 밖의 지역이나 위 범위를 벗어난 요청은 정중히 범위를 안내한다.`;
+6. 한국 밖(예: 홍콩)도 같은 도구로 조회한다. 해외 장소는 OpenStreetMap 기준이라 평점·영업 여부가 없을 수 있음을 알린다.
+7. 결제·예약·주문은 할 수 없다. 장소 추천까지만 가능하다고 안내한다. 그 밖에 범위를 벗어난 요청도 정중히 범위를 안내한다.`;
 
 async function callGemini(contents, key) {
   const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL()}:generateContent`, {

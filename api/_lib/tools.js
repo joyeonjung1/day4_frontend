@@ -34,15 +34,18 @@ const round = (v, d = 0) => (typeof v === 'number' ? Number(v.toFixed(d)) : null
 export async function geocode(name) {
   const q = String(name || '').trim().slice(0, 80);
   if (!q) throw new Error('지역 이름이 비어 있습니다');
-  try {
-    const u = new URL('https://geocoding-api.open-meteo.com/v1/search');
-    u.search = new URLSearchParams({ name: q, count: '1', language: 'ko', countryCode: 'KR', format: 'json' });
-    const d = await getJSON(u);
-    const r = d.results?.[0];
-    if (r) return { name: [r.name, r.admin1].filter(Boolean).join(', '), lat: r.latitude, lng: r.longitude };
-  } catch (e) { /* 다음 방법으로 */ }
+  // 한국 안에서 먼저 찾고, 없으면 전 세계로 넓혀 찾는다 (예: Hong Kong)
+  for (const cc of ['KR', '']) {
+    try {
+      const u = new URL('https://geocoding-api.open-meteo.com/v1/search');
+      u.search = new URLSearchParams({ name: q, count: '1', language: 'ko', ...(cc ? { countryCode: cc } : {}), format: 'json' });
+      const d = await getJSON(u);
+      const r = d.results?.[0];
+      if (r) return { name: [r.name, r.admin1].filter(Boolean).join(', '), lat: r.latitude, lng: r.longitude };
+    } catch (e) { /* 다음 방법으로 */ }
+  }
   const u = new URL('https://nominatim.openstreetmap.org/search');
-  u.search = new URLSearchParams({ q, format: 'jsonv2', countrycodes: 'kr', limit: '1', 'accept-language': 'ko' });
+  u.search = new URLSearchParams({ q, format: 'jsonv2', limit: '1', 'accept-language': 'ko' });
   const d = await getJSON(u);
   if (!d[0]) throw new Error(`'${q}' 위치를 찾지 못했습니다. 다른 표기(영어 이름 등)로 다시 시도하세요`);
   return { name: d[0].display_name.split(',').slice(0, 2).join(',').trim(), lat: Number(d[0].lat), lng: Number(d[0].lon) };
@@ -53,12 +56,12 @@ export async function get_weather({ location }) {
   const place = await geocode(location);
   const f = new URL('https://api.open-meteo.com/v1/forecast');
   f.search = new URLSearchParams({
-    latitude: place.lat, longitude: place.lng, timezone: 'Asia/Seoul', wind_speed_unit: 'kmh', forecast_days: '2',
+    latitude: place.lat, longitude: place.lng, timezone: 'auto', wind_speed_unit: 'kmh', forecast_days: '2',
     current: 'temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,wind_speed_10m',
     daily: 'weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum',
   });
   const a = new URL('https://air-quality-api.open-meteo.com/v1/air-quality');
-  a.search = new URLSearchParams({ latitude: place.lat, longitude: place.lng, timezone: 'Asia/Seoul', current: 'pm10,pm2_5' });
+  a.search = new URLSearchParams({ latitude: place.lat, longitude: place.lng, timezone: 'auto', current: 'pm10,pm2_5' });
 
   const [w, air] = await Promise.allSettled([getJSON(f), getJSON(a)]);
   if (w.status !== 'fulfilled') throw new Error('날씨 API 호출 실패: ' + w.reason.message);
@@ -119,7 +122,7 @@ async function findSpotsOSM(place, cat, radius, n) {
   const spots = [];
   for (const el of data.elements || []) {
     const t = el.tags || {};
-    const name = t['name:ko'] || t.name;
+    const name = t['name:ko'] || t['name:en'] || t.name;
     const lat = el.lat ?? el.center?.lat, lng = el.lon ?? el.center?.lon;
     if (!name || lat == null || lng == null || seen.has(name)) continue;
     seen.add(name);
@@ -192,7 +195,8 @@ export async function find_spots({ location, category = 'attraction', radius_km 
   const n = Math.min(Math.max(parseInt(limit, 10) || 6, 1), 10);
   const place = await geocode(location);
   const key = (process.env.KAKAO_REST_API_KEY || '').trim();
-  const found = key ? await findSpotsKakao(place, cat, radius, n, key) : await findSpotsOSM(place, cat, radius, n);
+  const inKorea = place.lat > 32.5 && place.lat < 39 && place.lng > 123.5 && place.lng < 132.5;   // 카카오는 한국만 지원
+  const found = key && inKorea ? await findSpotsKakao(place, cat, radius, n, key) : await findSpotsOSM(place, cat, radius, n);
   return { center: place.name, center_lat: place.lat, center_lng: place.lng, category: cat, radius_km: radius / 1000, ...found };
 }
 
@@ -200,7 +204,7 @@ export async function find_spots({ location, category = 'attraction', radius_km 
 export const DECLARATIONS = [
   {
     name: 'get_weather',
-    description: '한국 내 특정 지역의 실시간 날씨(기온·체감·습도·바람·강수), 오늘·내일 예보, 미세먼지(PM10·PM2.5)를 조회한다. 날씨·옷차림·비 여부·미세먼지·야외 활동 가능 여부가 중요할 때 호출한다.',
+    description: '특정 지역(주로 한국, 해외도 가능)의 실시간 날씨(기온·체감·습도·바람·강수), 오늘·내일 예보, 미세먼지(PM10·PM2.5)를 조회한다(미세먼지는 모델 추정값). 날씨·옷차림·비 여부·미세먼지·야외 활동 가능 여부가 중요할 때 호출한다.',
     parameters: {
       type: 'object',
       properties: { location: { type: 'string', description: '지역 이름. 영어 로마자로 넣으면 가장 정확하다 (예: Seoul, Busan, Jeju, Seogwipo, Gangneung). 한글 지명은 영어로 바꿔서 넣는다.' } },
