@@ -12,7 +12,7 @@ const ROOT = fileURLToPath(new URL('.', import.meta.url));
 const PORT = Number(process.env.PORT) || 3000;
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon' };
-const PUBLIC = new Set(['index.html', 'app.js', 'agent.js', 'weather.js', 'cities.js', 'style.css']);   // 서버 코드(api/·.env)는 내보내지 않음
+const PUBLIC = new Set(['index.html', 'app.js', 'agent.js', 'weather.js', 'cities.js', 'products-tree.js', 'style.css']);   // 서버 코드(api/·.env)는 내보내지 않음
 
 http.createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');

@@ -48,6 +48,17 @@
         <div class="weather" id="weather" hidden></div>
       </div>
     </section>
+
+    <!-- dummyjson products 데이터 구조 애니메이션 -->
+    <section class="pbox" aria-label="dummyjson products 데이터 구조">
+      <h2>dummyjson.com/products 데이터 구조</h2>
+      <div class="pbar">
+        <button type="button" id="p-play">다시 재생</button>
+        <button type="button" id="p-all">모두 펼치기</button>
+        <span class="pnote">객체·배열 이름을 누르면 접고 펼칩니다</span>
+      </div>
+      <div id="ptree" class="ptree"></div>
+    </section>
   </main>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -55,5 +66,6 @@
   <script src="cities.js"></script>
   <script src="weather.js"></script>
   <script src="agent.js"></script>
+  <script src="products-tree.js"></script>
 </body>
 </html>

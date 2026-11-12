@@ -78,3 +78,25 @@ button { cursor: pointer; font: inherit; }
 .w-grid dt { color: var(--muted); font-size: 12px; margin-bottom: 4px; }
 .w-grid dd { margin: 0; font-size: 15px; font-weight: 700; }
 .w-note { display: block; margin-top: 12px; color: var(--muted); font-size: 11px; }
+
+/* ── dummyjson 데이터 구조 애니메이션 ── */
+.pbox { margin: 16px 0; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+.pbox h2 { margin: 0 0 10px; font-size: 17px; }
+.pbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+.pbar button { padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font-size: 13px; }
+.pbar button:hover { background: #eef6ff; }
+.pnote { color: var(--muted); font-size: 12px; }
+.ptree { font-family: Consolas, "Courier New", monospace; font-size: 13px; line-height: 1.5; background: #f1f4f9; border-radius: 10px; padding: 10px 12px; overflow-x: auto; }
+.prow { display: flex; align-items: baseline; gap: 8px; padding: 2px 0; opacity: 0; transform: translateX(-10px); transition: opacity .35s, transform .35s; white-space: nowrap; }
+.prow.show { opacity: 1; transform: none; }
+.prow.hide { display: none; }
+.prow.parent .pk { cursor: pointer; }
+.prow:hover { background: #fff; border-radius: 6px; }
+.ptg { width: 14px; flex: none; color: var(--muted); cursor: pointer; user-select: none; }
+.pv { color: var(--muted); overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.pt { font-size: 11px; padding: 0 7px; border-radius: 6px; flex: none; }
+.pt-string { background: #e3f6ea; color: #17663a; }
+.pt-number { background: #e3eefc; color: #1d4fa0; }
+.pt-array { background: #fff3d6; color: #8a5a00; }
+.pt-object { background: #efe7fb; color: #5b2ea6; }
+@media (prefers-reduced-motion: reduce) { .prow { transition: none; transform: none; } }
